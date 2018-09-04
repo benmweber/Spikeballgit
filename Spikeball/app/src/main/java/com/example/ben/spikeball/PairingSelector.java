@@ -15,34 +15,24 @@ public class PairingSelector {
     Random rand = new Random();
 
 
-    Player player1_ = new Player("Timo",600);
-    Player player2_ = new Player("Ellie",300);
-    Player player3_ = new Player("Diana",300);
-    Player player4_ = new Player("Ben",700);
-    Player player5_ = new Player("Julius",550);
 
 
-    public Duel calculateDuel(ArrayList<Player> players){
+
+    public Duel calculateDuel(ArrayList<Player> players, Duel defaultDuel){
 
 
-        Team defaultTeam1 = new Team(player1_, player2_);
-        Team defaultTeam2 = new Team(player1_, player2_);
-        Duel defaultDuel = new Duel(defaultTeam1, defaultTeam2);
+
 
         do{
 
             //ArrayList<Player> players = new ArrayList<Player>();
 
-
-
-
-
             /*players.add(player1_);
             players.add(player2_);
             players.add(player3_);
             players.add(player4_);
-            players.add(player5_);
-            */
+            players.add(player5_);*/
+
             //Player player6_ = new Player("Melike");
             //players.add(player6_);
 

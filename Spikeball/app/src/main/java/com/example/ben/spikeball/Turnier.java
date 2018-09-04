@@ -17,7 +17,19 @@ public class Turnier extends AppCompatActivity {
 
     private ArrayList<String> myPlayerNameList;
     private ArrayList<Player> myPlayerList;
+    private ArrayList<Player> players;
     private PairingSelector pairSelector = new PairingSelector();
+
+    public Player player1_ = new Player("Timo",600);
+    public Player player2_ = new Player("Ellie",300);
+    public Player player3_ = new Player("Diana",300);
+    public Player player4_ = new Player("Ben",700);
+    public Player player5_ = new Player("Julius",550);
+    public Team defaultTeam1 = new Team(player1_, player2_);
+    public Team defaultTeam2 = new Team(player1_, player2_);
+    public Duel defaultDuel = new Duel(defaultTeam1, defaultTeam2);
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +42,16 @@ public class Turnier extends AppCompatActivity {
         myPlayerList = newBundle.getParcelableArrayList("myPlayerList");
         myPlayerNameList = newBundle.getStringArrayList("myPlayerNameList");
 
+        players = new ArrayList<>();
+
+        players.add(player1_);
+        players.add(player2_);
+        players.add(player3_);
+        players.add(player4_);
+        players.add(player5_);
+
+
+
         calculateTeams();
 
 
@@ -40,7 +62,7 @@ public class Turnier extends AppCompatActivity {
     private void calculateTeams(){
 
 
-            Duel duel = pairSelector.calculateDuel(myPlayerList);
+            Duel duel = pairSelector.calculateDuel(players, defaultDuel);
             ArrayList<Team> teams = duel.getTeams();
 
             TextView textMMRdiff = findViewById(R.id.mmrdiff);
