@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Spikeball</string>
+    <string name="team1">Team 1</string>
+    <string name="team2">Team 2</string>
+    <string name="spieler1">Spieler 1</string>
+    <string name="spieler2">Spieler 2</string>
+    <string name="fertig">Fertig!</string>
+    <string name="turnier_stop">Turnier stoppen</string>
+    <string name="spieler">Spieler</string>
+    <string name="start_turnier">Turnier starten</string>
+    <string name="add">add</string>
+    <string name="no_playerName">Bitte einen Namen eingeben</string>
+    <string name="mmrdiff">MMRDiff:</string>
+</resources>
