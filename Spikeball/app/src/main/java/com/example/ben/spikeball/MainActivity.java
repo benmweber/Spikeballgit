@@ -161,11 +161,13 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.ItemCli
 
         EditText editText = (EditText) findViewById(R.id.playerName);
         String playerName = editText.getText().toString();
+        editText.getText().clear();
 
         if (!playerName.isEmpty()) {
 
             myPlayerNameList.add(playerName);
             Player pl = new Player(playerName, 0);
+
             myPlayerList.add(pl);
             mRecyclerView.setAdapter(mAdapter);
 

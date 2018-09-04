@@ -20,12 +20,16 @@ public class PairingSelector {
 
     public Duel calculateDuel(ArrayList<Player> players, Duel defaultDuel){
 
-
-
-
         do{
 
-            //ArrayList<Player> players = new ArrayList<Player>();
+            ArrayList<Player> players_temp = new ArrayList<Player>();
+
+            for(int i = 0; i < players.size(); i++){
+
+                players_temp.add(players.get(i));
+
+            }
+
 
             /*players.add(player1_);
             players.add(player2_);
@@ -44,14 +48,14 @@ public class PairingSelector {
             nr_players = players.size();
 
 
-            ArrayList<Player> players_temp = new ArrayList<Player>();
+
 
             ArrayList<Player> team1_ = new ArrayList<Player>();
 
             ArrayList<Player> team2_ = new ArrayList<Player>();
 
 
-            players_temp = players;
+
 
 
 
