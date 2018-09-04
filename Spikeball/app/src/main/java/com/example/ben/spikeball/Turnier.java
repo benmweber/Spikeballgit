@@ -26,8 +26,9 @@ public class Turnier extends AppCompatActivity {
 
         Intent intent = getIntent();
 
-        myPlayerNameList = intent.getStringArrayListExtra("myPlayerNameList");
-        myPlayerList = intent.getParcelableArrayListExtra("myPlayerList");
+        Bundle newBundle = intent.getBundleExtra("newBundle");
+        myPlayerList = newBundle.getParcelableArrayList("myPlayerList");
+        myPlayerNameList = newBundle.getStringArrayList("myPlayerNameList");
 
         calculateTeams();
 
@@ -94,7 +95,7 @@ public class Turnier extends AppCompatActivity {
                             case 0:
 
 
-                                ;
+
 
                                 break;
 

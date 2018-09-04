@@ -103,8 +103,15 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.ItemCli
                 ;//Statistik anzeigen
 
                 Intent intent = new Intent(this, Stats.class);
-                intent.putStringArrayListExtra("myPlayerList", myPlayerNameList);
-                intent.putExtra("playerName", position);
+                Bundle newBundle = new Bundle();
+                newBundle.putParcelableArrayList("myPlayerList", myPlayerList);
+                newBundle.putStringArrayList("myPlayerNameList", myPlayerNameList);
+                intent.putExtra("newBundle", newBundle);
+
+
+                //intent.putStringArrayListExtra("myPlayerList", myPlayerNameList);
+                //intent.putParcelableArrayListExtra("myPlayerList", myPlayerList);
+                //intent.putExtra("playerName", position);
                 startActivity(intent);
 
                 break;
@@ -185,9 +192,11 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.ItemCli
 
 
         Intent intent = new Intent(this, Turnier.class);
-        intent.putStringArrayListExtra("myPlayerNameList", myPlayerNameList);
 
-        intent.putParcelableArrayListExtra("myPlayerList", myPlayerList);
+        Bundle newBundle = new Bundle();
+        newBundle.putParcelableArrayList("myPlayerList", myPlayerList);
+        newBundle.putStringArrayList("myPlayerNameList", myPlayerNameList);
+        intent.putExtra("newBundle", newBundle);
 
         startActivity(intent);
     }

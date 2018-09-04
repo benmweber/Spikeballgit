@@ -30,15 +30,9 @@ public class Player implements Parcelable {
 
     // Parcelling part
     public Player(Parcel in){
-        String[] data = new String[1];
-        int[] mmrs = new int[1];
-        //in.readString(this.name);
-        //in.readInt(this.mmr);
 
-        in.readStringArray(data);
-        in.readIntArray(mmrs);
-        this.name = data[0];
-        this.mmr = mmrs[0];
+        this.name = in.readString();
+        this.mmr = in.readInt();
 
 
     }
@@ -51,8 +45,8 @@ public class Player implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeStringArray(new String[] {this.name});
-        dest.writeIntArray(new int[] {this.mmr});
+        dest.writeString(this.name);
+        dest.writeInt(this.mmr);
     }
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
