@@ -11,6 +11,8 @@ public class Player implements Parcelable {
 
     public int mmr = 0;
 
+    public boolean checked = false;
+
     public Player(String input, int input_mmr)
 
     {

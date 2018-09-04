@@ -8,10 +8,18 @@
     android:orientation="horizontal"
     android:padding="10dp">
 
-    <TextView
-        android:id="@+id/PlayerName"
-        android:layout_width="wrap_content"
+    <CheckedTextView
+        android:id="@+id/simpleCheckedTextView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20sp"/>
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="18dp"
+        android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+        android:checked="false"
+        android:gravity="center_vertical"
+        android:padding="8dp"
+        android:textSize="18sp" />
+
 
 </LinearLayout>

@@ -17,6 +17,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.Adapter;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.CheckedTextView;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -28,6 +29,8 @@ import com.example.ben.spikeball.MyAdapter.ItemClickListener;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+
+
 
 
 public class MainActivity extends AppCompatActivity implements MyAdapter.ItemClickListener, MyDialogFragment.MyDialogListener {
@@ -142,18 +145,32 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.ItemCli
     }
 
     @Override
-    public void onItemClick(View view, int pos) {
+    public void onItemClick(View view, int pos, CheckedTextView myCheckedTextView) {
 
         // Create an instance of the dialog fragment and show it
         DialogFragment dialog = new MyDialogFragment();
 
+        Boolean value = myCheckedTextView.isChecked();
+
+        if(value){
+
+
+            myCheckedTextView.setChecked(false);
+            myPlayerList.get(pos).checked = false;
+
+        }
+        else{
+
+            myCheckedTextView.setChecked(true);
+            myPlayerList.get(pos).checked = true;
+        }
 
         Bundle bundle = new Bundle();
         bundle.putInt("position", pos);
         dialog.setArguments(bundle);
 
 
-        dialog.show(getSupportFragmentManager(), "MyDialogFragment");
+        //dialog.show(getSupportFragmentManager(), "MyDialogFragment");
 
     }
 
@@ -201,6 +218,35 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.ItemCli
         intent.putExtra("newBundle", newBundle);
 
         startActivity(intent);
+    }
+
+    public void showStats(View view){
+
+
+
+            if(myPlayerList.get(0).checked){
+
+                Intent intent = new Intent(this, Stats.class);
+                Bundle newBundle = new Bundle();
+                newBundle.putParcelableArrayList("myPlayerList", myPlayerList);
+                newBundle.putStringArrayList("myPlayerNameList", myPlayerNameList);
+                intent.putExtra("newBundle", newBundle);
+
+
+
+                startActivity(intent);
+            }
+
+
+
+
+
+
+
+
+
+
+
     }
 
 
