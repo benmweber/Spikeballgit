@@ -15,8 +15,8 @@ import java.util.ArrayList;
 
 public class Turnier extends AppCompatActivity {
 
-    private ArrayList<String> myPlayerNameList;
-    private ArrayList<Player> myPlayerList;
+
+    private ArrayList<Player> myActivePlayers;
 
     private PairingSelector pairSelector = new PairingSelector();
 
@@ -37,8 +37,8 @@ public class Turnier extends AppCompatActivity {
         Intent intent = getIntent();
 
         Bundle newBundle = intent.getBundleExtra("newBundle");
-        myPlayerList = newBundle.getParcelableArrayList("myPlayerList");
-        myPlayerNameList = newBundle.getStringArrayList("myPlayerNameList");
+        myActivePlayers = newBundle.getParcelableArrayList("myActivePlayers");
+
 
 
 
@@ -54,7 +54,8 @@ public class Turnier extends AppCompatActivity {
     private void calculateTeams(){
 
 
-            Duel duel = pairSelector.calculateDuel(myPlayerList, defaultDuel);
+
+            Duel duel = pairSelector.calculateDuel(myActivePlayers, defaultDuel);
             ArrayList<Team> teams = duel.getTeams();
 
             TextView textMMRdiff = findViewById(R.id.mmrdiff);

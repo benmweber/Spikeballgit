@@ -11,6 +11,9 @@ public class Player implements Parcelable {
 
     public int mmr = 0;
 
+    private int wins = 0;
+    private int lost = 0;
+
     public boolean checked = false;
 
     public Player(String input, int input_mmr)
@@ -25,9 +28,20 @@ public class Player implements Parcelable {
         name = input;
     }
 
-    public String getName()
-    {
+    public String getName()    {
         return name;
+    }
+
+    public int getMmr(){
+        return mmr;
+    }
+
+    public int getWins(){
+        return wins;
+    }
+
+    public int getLost(){
+        return lost;
     }
 
     // Parcelling part

@@ -1,36 +1,19 @@
 package com.example.ben.spikeball;
 
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.recyclerview.extensions.AsyncListDiffer;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.Adapter;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.CheckedTextView;
 import android.widget.EditText;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.Switch;
-import android.widget.TextView;
-import android.widget.Toast;
-import com.example.ben.spikeball.MyAdapter.ItemClickListener;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
-
-
 
 
 public class MainActivity extends AppCompatActivity implements MyAdapter.ItemClickListener, MyDialogFragment.MyDialogListener {
@@ -38,7 +21,6 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.ItemCli
 
     private SharedPreferences myPrefs;
     private SharedPreferences.Editor editor;
-    private ArrayList<String> myPlayerNameList;
     private ArrayList<Player> myPlayerList;
 
     private RecyclerView mRecyclerView;
@@ -50,16 +32,17 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.ItemCli
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
 
-        myPlayerNameList = new ArrayList<String>();
+
         myPlayerList = new ArrayList<>();
 
 
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewStats);
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
@@ -75,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.ItemCli
 
 
 
-        mAdapter = new MyAdapter(this, myPlayerNameList);
+        mAdapter = new MyAdapter(this, myPlayerList);
 
 
         mAdapter.setClickListener(this);
@@ -108,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.ItemCli
                 Intent intent = new Intent(this, Stats.class);
                 Bundle newBundle = new Bundle();
                 newBundle.putParcelableArrayList("myPlayerList", myPlayerList);
-                newBundle.putStringArrayList("myPlayerNameList", myPlayerNameList);
+
                 intent.putExtra("newBundle", newBundle);
 
 
@@ -121,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.ItemCli
 
             case 1:
 
-                myPlayerNameList.remove(position);
+
                 myPlayerList.remove(position);
 
                 mRecyclerView.setAdapter(mAdapter);
@@ -182,10 +165,11 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.ItemCli
 
         if (!playerName.isEmpty()) {
 
-            myPlayerNameList.add(playerName);
+
             Player pl = new Player(playerName, 0);
 
             myPlayerList.add(pl);
+
             mRecyclerView.setAdapter(mAdapter);
 
         }
@@ -207,35 +191,88 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.ItemCli
 
 
     }
+
     public void startTurnier(View view){
 
+        ArrayList<Player> myActivePlayers = new ArrayList<>();
 
-        Intent intent = new Intent(this, Turnier.class);
+        for(int i = 0; i < myPlayerList.size(); i++){
 
-        Bundle newBundle = new Bundle();
-        newBundle.putParcelableArrayList("myPlayerList", myPlayerList);
-        newBundle.putStringArrayList("myPlayerNameList", myPlayerNameList);
-        intent.putExtra("newBundle", newBundle);
+            if(myPlayerList.get(i).checked){
 
-        startActivity(intent);
+                myActivePlayers.add(myPlayerList.get(i));
+
+            }
+            else{
+
+            }
+        }
+
+        if(myActivePlayers.size()<4){
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Fuck off dude").setTitle("Not enough Players selected");
+
+            builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+
+                    // User clicked OK button
+                }
+            });
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
+        else{
+            Intent intent = new Intent(this, Turnier.class);
+            Bundle newBundle = new Bundle();
+            newBundle.putParcelableArrayList("myActivePlayers", myActivePlayers);
+            intent.putExtra("newBundle", newBundle);
+            startActivity(intent);
+        }
     }
 
     public void showStats(View view){
 
+        ArrayList<Player> myCheckedPlayers = new ArrayList<>();
 
+        for(int i = 0; i < myPlayerList.size(); i++){
 
-            if(myPlayerList.get(0).checked){
+            if(myPlayerList.get(i).checked){
 
-                Intent intent = new Intent(this, Stats.class);
-                Bundle newBundle = new Bundle();
-                newBundle.putParcelableArrayList("myPlayerList", myPlayerList);
-                newBundle.putStringArrayList("myPlayerNameList", myPlayerNameList);
-                intent.putExtra("newBundle", newBundle);
+                myCheckedPlayers.add(myPlayerList.get(i));
 
-
-
-                startActivity(intent);
             }
+            else{
+
+            }
+        }
+
+        if(myCheckedPlayers.isEmpty()){
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Fuck off dude").setTitle("No Players selected");
+
+            builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+
+                    // User clicked OK button
+                }
+            });
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
+        else{
+            Intent intent = new Intent(this, Stats.class);
+            Bundle newBundle = new Bundle();
+            newBundle.putParcelableArrayList("myCheckedPlayers", myCheckedPlayers);
+            intent.putExtra("newBundle", newBundle);
+            startActivity(intent);
+        }
+
+
+
 
 
 

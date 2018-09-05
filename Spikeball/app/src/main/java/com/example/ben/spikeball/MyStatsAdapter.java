@@ -10,14 +10,14 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
+public class MyStatsAdapter extends RecyclerView.Adapter<MyStatsAdapter.ViewHolder> {
 
     private ArrayList<Player> mData;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
 
     // data is passed into the constructor
-    MyAdapter(Context context, ArrayList<Player> data) {
+    MyStatsAdapter(Context context, ArrayList<Player> data) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
     }
@@ -25,15 +25,22 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     // inflates the row layout from xml when needed
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.recyclerview_row, parent, false);
-        return new ViewHolder(view);
+        View view = mInflater.inflate(R.layout.recyclerview_stats, parent, false);
+        return new MyStatsAdapter.ViewHolder(view);
     }
 
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         String playerName = mData.get(position).getName();
-        holder.myTextView.setText(playerName);
+        int playerMMR =  mData.get(position).getMmr();
+        int playerWins = mData.get(position).getWins();
+        int playerLost = mData.get(position).getLost();
+
+        holder.myTextViewName.setText("Name: " + playerName);
+        holder.myTextViewMMR.setText("MMR: " + String.valueOf(playerMMR));
+        holder.myTextViewWins.setText("Wins: " + String.valueOf(playerWins));
+        holder.myTextViewLost.setText("Lost: " + String.valueOf(playerLost));
     }
 
     // total number of rows
@@ -45,25 +52,31 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        CheckedTextView myTextView;
+
+        TextView myTextViewName;
+        TextView myTextViewMMR;
+        TextView myTextViewWins;
+        TextView myTextViewLost;
 
         ViewHolder(View itemView) {
             super(itemView);
-            myTextView = itemView.findViewById(R.id.simpleCheckedTextView);
+            myTextViewName = itemView.findViewById(R.id.textViewName);
+            myTextViewMMR = itemView.findViewById(R.id.textViewMMR);
+            myTextViewWins = itemView.findViewById(R.id.textViewWins);
+            myTextViewLost = itemView.findViewById(R.id.textViewLost);
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
+
             if (mClickListener != null) {
-
-                mClickListener.onItemClick(view, getAdapterPosition(), myTextView);
-
+                mClickListener.onItemClick(view, getAdapterPosition(), myTextViewName);
             }
         }
     }
 
-    // convenience method for getting data at click position
+        // convenience method for getting data at click position
 
     public String getItem(int id) {
 
@@ -77,7 +90,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
     // parent activity will implement this method to respond to click events
     public interface ItemClickListener {
-        void onItemClick(View view, int position, CheckedTextView myCheckedTextView);
+        void onItemClick(View view, int position, TextView myTextView);
     }
-
 }
+
+
+
+
