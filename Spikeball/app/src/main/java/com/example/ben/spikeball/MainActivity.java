@@ -1,6 +1,7 @@
 package com.example.ben.spikeball;
 
 import android.content.DialogInterface;
+import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -20,7 +21,7 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.ItemCli
 
 
     private SharedPreferences myPrefs;
-    private SharedPreferences.Editor editor;
+    private SharedPreferences.Editor myPrefEditor;
     private ArrayList<Player> myPlayerList;
 
     private RecyclerView mRecyclerView;
@@ -38,9 +39,13 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.ItemCli
 
 
 
+        //DefaultSharedPreferences ist ein File für die komplette App
+        myPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        myPrefEditor = myPrefs.edit();
+
         myPlayerList = new ArrayList<>();
 
-
+        readPlayers();
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewStats);
 
@@ -166,7 +171,14 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.ItemCli
         if (!playerName.isEmpty()) {
 
 
-            Player pl = new Player(playerName, 0);
+            Player pl = new Player(playerName, 0, 0, 0);
+
+
+            myPrefEditor.putString("Player" + String.valueOf(myPlayerList.size()), pl.getName());
+            myPrefEditor.putInt(pl.getName() + "MMR", pl.getMmr());
+            myPrefEditor.putInt(pl.getName() + "Wins", pl.getWins());
+            myPrefEditor.putInt(pl.getName() + "Lost", pl.getLost());
+            myPrefEditor.apply();
 
             myPlayerList.add(pl);
 
@@ -190,6 +202,49 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.ItemCli
         }
 
 
+    }
+
+    public void deletePlayers(View view){
+
+
+
+        for(int i = 0; i < myPlayerList.size(); i++){
+
+            if(myPlayerList.get(i).checked){
+
+                myPrefEditor.remove("Player" + String.valueOf(i));
+                myPrefEditor.remove(myPlayerList.get(i).getMmr() + "MMR");
+                myPrefEditor.remove(myPlayerList.get(i).getName() + "Wins");
+                myPrefEditor.remove(myPlayerList.get(i).getName() + "Lost");
+
+
+                for(int d = i + 1; d < myPlayerList.size(); d++){
+
+                    String n = myPrefs.getString("Player" + String.valueOf(d), "");
+
+
+                    myPrefEditor.putString("Player" + String.valueOf(d - 1), n);
+
+                    myPrefEditor.remove("Player" + String.valueOf(d));
+
+
+
+                }
+
+
+                myPrefEditor.apply();
+                myPlayerList.remove(i);
+                i--;
+
+
+            }
+            else{
+
+            }
+
+
+        }
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     public void startTurnier(View view){
@@ -280,6 +335,38 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.ItemCli
 
 
 
+
+
+
+
+    }
+
+    private void readPlayers(){
+        //Liest aus der DefaultSharedPreference die schon vorhanden Spieler aus
+
+        int i = 0;
+        boolean isNotEmpty = true;
+
+        while (isNotEmpty){
+
+            String playerName = myPrefs.getString("Player" + String.valueOf(i), "");
+
+            if(!playerName.isEmpty()){
+
+                int playerMMR = myPrefs.getInt(playerName +"MMR", 0);
+                int playerWins = myPrefs.getInt(playerName + "Wins", 100);
+                int playerLost = myPrefs.getInt(playerName + "Lost", 0);
+
+
+                Player pl = new Player(playerName, playerMMR, playerWins, playerLost);
+
+                myPlayerList.add(pl);
+                i++;
+            }
+            else{
+                isNotEmpty = false;
+            }
+        }
 
 
 

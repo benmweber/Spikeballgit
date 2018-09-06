@@ -29,7 +29,7 @@ public class Team {
 
             team_id = team_composition.get(0).getName() + " & " + team_composition.get(1).getName();
 
-            combined_mmr = (player1.mmr + player2.mmr) / 2;
+            combined_mmr = (player1.getMmr() + player2.getMmr()) / 2;
         }
 
         public String getTeamId()
@@ -37,21 +37,19 @@ public class Team {
             return team_id;
         }
 
-        public void changePlayerMMR(int player_nr, int change)
+        /*public void changePlayerMMR(int player_nr, int change)
         {
             team_composition.get(player_nr - 1).mmr += change;
-        }
+        }*/
 
         public void showMMRs()
         {
-            System.out.println("MMR " + team_composition.get(0).getName() + ": " + team_composition.get(0).mmr);
-            System.out.println("MMR " + team_composition.get(1).getName() + ": " + team_composition.get(1).mmr);
+            System.out.println("MMR " + team_composition.get(0).getName() + ": " + team_composition.get(0).getMmr());
+            System.out.println("MMR " + team_composition.get(1).getName() + ": " + team_composition.get(1).getMmr());
         }
 
         public Player getPlayer(int nr)
         {
-
-
             return team_composition.get(nr);
 
         }

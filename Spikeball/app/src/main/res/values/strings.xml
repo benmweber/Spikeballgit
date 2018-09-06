@@ -11,4 +11,6 @@
     <string name="add">add</string>
     <string name="no_playerName">Bitte einen Namen eingeben</string>
     <string name="mmrdiff">MMRDiff:</string>
+    <string name="showStats">Show Stats</string>
+    <string name="löschen">Spieler löschen</string>
 </resources>

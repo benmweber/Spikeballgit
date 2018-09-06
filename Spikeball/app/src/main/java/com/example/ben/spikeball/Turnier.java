@@ -3,6 +3,8 @@ package com.example.ben.spikeball;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,16 +18,20 @@ import java.util.ArrayList;
 public class Turnier extends AppCompatActivity {
 
 
+    private SharedPreferences myPrefs;
+    private SharedPreferences.Editor myPrefEditor;
+
     private ArrayList<Player> myActivePlayers;
+    private Duel activeDuel;
 
     private PairingSelector pairSelector = new PairingSelector();
 
-    public Player player1_ = new Player("Fertig",0);
-    public Player player2_ = new Player("Fertig",0);
+    private Player player1_ = new Player("Fertig",0);
+    private Player player2_ = new Player("Fertig",0);
 
-    public Team defaultTeam1 = new Team(player1_, player2_);
-    public Team defaultTeam2 = new Team(player1_, player2_);
-    public Duel defaultDuel = new Duel(defaultTeam1, defaultTeam2);
+    private Team defaultTeam1 = new Team(player1_, player2_);
+    private Team defaultTeam2 = new Team(player1_, player2_);
+    private Duel defaultDuel = new Duel(defaultTeam1, defaultTeam2);
 
 
 
@@ -39,7 +45,8 @@ public class Turnier extends AppCompatActivity {
         Bundle newBundle = intent.getBundleExtra("newBundle");
         myActivePlayers = newBundle.getParcelableArrayList("myActivePlayers");
 
-
+        myPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        myPrefEditor = myPrefs.edit();
 
 
 
@@ -54,12 +61,12 @@ public class Turnier extends AppCompatActivity {
     private void calculateTeams(){
 
 
-
-            Duel duel = pairSelector.calculateDuel(myActivePlayers, defaultDuel);
-            ArrayList<Team> teams = duel.getTeams();
+            //Duel duel = pairSelector.calculateDuel(myActivePlayers, defaultDuel);
+            activeDuel = pairSelector.calculateDuel(myActivePlayers, defaultDuel);
+            ArrayList<Team> teams = activeDuel.getTeams();
 
             TextView textMMRdiff = findViewById(R.id.mmrdiff);
-            textMMRdiff.setText(Integer.toString(duel.getMmrDiff()));
+            textMMRdiff.setText(Integer.toString(activeDuel.getMmrDiff()));
 
 
 
@@ -109,14 +116,17 @@ public class Turnier extends AppCompatActivity {
                         switch(which){
                             case 0:
 
-
-
+                                activeDuel.setWinnerLoser(activeDuel.getTeams().get(0), activeDuel.getTeams().get(1));
+                                activeDuel.applyMMRChange();
+                                calculateTeams();
 
                                 break;
 
                             case 1:
 
-
+                                activeDuel.setWinnerLoser(activeDuel.getTeams().get(1), activeDuel.getTeams().get(0));
+                                activeDuel.applyMMRChange();
+                                calculateTeams();
 
                                 break;
 
@@ -136,7 +146,7 @@ public class Turnier extends AppCompatActivity {
         dialog.show();
 
 
-        calculateTeams();
+
 
     }
 
@@ -162,7 +172,17 @@ public class Turnier extends AppCompatActivity {
 
                         switch(which){
                             case 0:
-                                ;//Statistik anzeigen
+
+                                for(int i = 0; i < myActivePlayers.size(); i++){
+                                    myPrefEditor.putInt(myActivePlayers.get(i).getName() + "MMR", myActivePlayers.get(i).getMmr());
+                                    myPrefEditor.putInt(myActivePlayers.get(i).getName() + "Wins", myActivePlayers.get(i).getWins());
+                                    myPrefEditor.putInt(myActivePlayers.get(i).getName() + "Lost", myActivePlayers.get(i).getLost());
+
+                                }
+                                myPrefEditor.apply();
+                                //myPrefEditor.apply();
+
+
 
                                 break;
 

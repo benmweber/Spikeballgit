@@ -10,8 +10,8 @@ public class Duel {
 
     public String identifier;
     private int mmrDiff;
-    public Team winner;
-    public Team loser;
+    private Team winner;
+    private Team loser;
 
     private Comparator<Team> team_comp = new Comparator<Team>(){
         @Override
@@ -29,16 +29,15 @@ public class Duel {
 
         mmrDiff = Math.abs(teams.get(0).combined_mmr - teams.get(1).combined_mmr);
 
-
         Collections.sort(teams,team_comp);
 
         identifier = teams.get(0).getTeamId() + " vs. " + teams.get(1).getTeamId();
     }
 
 
-    public void setWinner(int team_nr)
+    public void setWinnerLoser(Team w, Team l)
     {
-        winner = teams.get(team_nr);
+        /*winner = teams.get(team_nr);
 
         if (team_nr == 0)
         {
@@ -49,7 +48,18 @@ public class Duel {
             loser = teams.get(0);
         }
 
-        System.out.println("And the winner is ... " + winner.getTeamId());
+        System.out.println("And the winner is ... " + winner.getTeamId());*/
+
+        winner = w;
+        loser = l;
+
+        winner.getPlayer(0).addWin();
+        winner.getPlayer(1).addWin();
+
+        loser.getPlayer(0).addLost();
+        loser.getPlayer(1).addLost();
+
+
     }
 
     public void applyMMRChange()
@@ -59,14 +69,16 @@ public class Duel {
         double gain;
         int abs_mmr_diff = Math.abs(mmr_difference);
 
-        System.out.println("MMR Differenz: " + abs_mmr_diff);
+        //System.out.println("MMR Differenz: " + abs_mmr_diff);
 
-        int change_winner_team, change_loser_team;
+        int change_winner_team;
+        int change_loser_team;
 
         if(mmr_difference >= 0) // expected
         {
             change_winner_team = (int) (10 + 0.1 * abs_mmr_diff);
             change_loser_team = (int) (-10 + 0.1 * abs_mmr_diff);
+
             if(change_loser_team > 0)
             {
                 change_loser_team = 0;
@@ -78,16 +90,23 @@ public class Duel {
             change_loser_team = (int) (-10 - abs_mmr_diff * 0.3);
         }
 
-        winner.changePlayerMMR(1,change_winner_team);
-        winner.changePlayerMMR(2,change_winner_team);
-        loser.changePlayerMMR(1,change_loser_team);
-        loser.changePlayerMMR(2,change_loser_team);
+        winner.getPlayer(0).changeMmr(change_winner_team);
+        winner.getPlayer(1).changeMmr(change_winner_team);
+        loser.getPlayer(0).changeMmr(change_loser_team);
+        loser.getPlayer(1).changeMmr(change_loser_team);
 
-        System.out.println("Winner MMR change: " + change_winner_team);
-        System.out.println("Loser MMR change: " + change_loser_team);
 
-        winner.showMMRs();
-        loser.showMMRs();
+
+        //System.out.println("Winner MMR change: " + change_winner_team);
+        //System.out.println("Loser MMR change: " + change_loser_team);
+
+        //winner.showMMRs();
+        //loser.showMMRs();
+
+
+
+
+
     }
 
     public void showPlayerMMRs()
