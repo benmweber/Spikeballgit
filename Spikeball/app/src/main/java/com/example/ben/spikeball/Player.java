@@ -7,9 +7,6 @@ import android.preference.PreferenceManager;
 
 public class Player implements Parcelable {
 
-
-
-
     private String name;
 
     private boolean played_last_match = false;
