@@ -14,7 +14,7 @@ public class Player implements Parcelable {
 
     private boolean played_last_match = false;
 
-    private int mmr = 0;
+    private int mmr = 500;
     private int wins = 0;
     private int lost = 0;
 
