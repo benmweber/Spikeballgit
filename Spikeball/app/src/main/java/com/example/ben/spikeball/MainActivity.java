@@ -169,7 +169,7 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.ItemCli
         if (!playerName.isEmpty()) {
 
 
-            Player pl = new Player(playerName, 500, 0, 0);
+            Player pl = new Player(playerName, 200, 0, 0);
 
 
             myPrefEditor.putString("Player" + String.valueOf(myPlayerList.size()), pl.getName());
