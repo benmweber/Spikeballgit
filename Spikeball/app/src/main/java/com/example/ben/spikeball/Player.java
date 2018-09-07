@@ -76,6 +76,8 @@ public class Player implements Parcelable {
 
         this.name = in.readString();
         this.mmr = in.readInt();
+        this.wins = in.readInt();
+        this.lost = in.readInt();
 
 
     }
@@ -90,6 +92,8 @@ public class Player implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.name);
         dest.writeInt(this.mmr);
+        dest.writeInt(this.wins);
+        dest.writeInt(this.lost);
     }
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {

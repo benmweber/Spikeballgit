@@ -68,9 +68,6 @@ public class Turnier extends AppCompatActivity {
             TextView textMMRdiff = findViewById(R.id.mmrdiff);
             textMMRdiff.setText(Integer.toString(activeDuel.getMmrDiff()));
 
-
-
-
             TextView textView1= findViewById(R.id.spieler1);
 
             textView1.setText(teams.get(0).getPlayer(0).getName());
@@ -180,7 +177,7 @@ public class Turnier extends AppCompatActivity {
 
                                 }
                                 myPrefEditor.apply();
-                                //myPrefEditor.apply();
+
 
 
 
