@@ -37,8 +37,6 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.ItemCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
         //DefaultSharedPreferences ist ein File für die komplette App
         myPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         myPrefEditor = myPrefs.edit();
@@ -205,7 +203,6 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.ItemCli
     }
 
     public void deletePlayers(View view){
-
 
 
         for(int i = 0; i < myPlayerList.size(); i++){

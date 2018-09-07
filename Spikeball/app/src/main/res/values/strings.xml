@@ -13,4 +13,5 @@
     <string name="mmrdiff">MMRDiff:</string>
     <string name="showStats">Show Stats</string>
     <string name="löschen">Spieler löschen</string>
+    <string name ="skip">Skip Duel</string>
 </resources>

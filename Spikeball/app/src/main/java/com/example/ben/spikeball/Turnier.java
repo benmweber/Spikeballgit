@@ -56,8 +56,6 @@ public class Turnier extends AppCompatActivity {
 
     }
 
-
-
     private void calculateTeams(){
 
 
@@ -144,6 +142,12 @@ public class Turnier extends AppCompatActivity {
 
 
 
+
+    }
+
+    public void skipDuel(View view){
+
+    calculateTeams();
 
     }
 
