@@ -52,6 +52,11 @@ public class Duel {
         System.out.println("And the winner is ... " + winner.getTeamId());
     }
 
+    public void applyDisadvantageToMMR()
+    {
+        
+    }
+
     public void applyMMRChange()
     {
         int mmr_difference = winner.combined_mmr - loser.combined_mmr; // if positive, the expected team won, if negative, the underdog won
